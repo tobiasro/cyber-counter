@@ -306,6 +306,24 @@
   let startLife = 30;
   let rolling = false;
 
+  const STORAGE_KEY = 'game-counter-state';
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ scores, startLife })); } catch (e) {}
+  }
+  function load() {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (s && Array.isArray(s.scores) && s.scores.length === 2 && s.scores.every(Number.isFinite)
+          && Number.isFinite(s.startLife)) {
+        scores = s.scores;
+        startLife = s.startLife;
+      }
+    } catch (e) {}
+    document.getElementById('score1').textContent = scores[0];
+    document.getElementById('score2').textContent = scores[1];
+    document.getElementById('lifeDisplay').textContent = startLife;
+  }
+
   function change(player, delta) {
     const i = player - 1;
     scores[i] += delta;
@@ -316,6 +334,7 @@
     const d = document.getElementById('delta' + player);
     d.textContent = (delta > 0 ? '+' : '') + delta;
     d.classList.remove('show'); void d.offsetWidth; d.classList.add('show');
+    save();
   }
 
   function changeLife(delta) {
@@ -324,6 +343,7 @@
     scores = [startLife, startLife];
     document.getElementById('score1').textContent = startLife;
     document.getElementById('score2').textContent = startLife;
+    save();
   }
 
   function openSettings() {
@@ -370,7 +390,10 @@
     scores = [startLife, startLife];
     document.getElementById('score1').textContent = startLife;
     document.getElementById('score2').textContent = startLife;
+    save();
   }
+
+  load();
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
