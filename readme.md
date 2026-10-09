@@ -9,6 +9,7 @@ A mobile-friendly two-player score tracker for card and tabletop games, inspired
 - **Settings menu** — Adjust starting points and roll dice without leaving the game
 - **Dice roller** — Rolls a d6 for both players simultaneously, colour-coded blue (P1) and red (P2)
 - **Reset with confirmation** — Prevents accidental resets
+- **Remembers the game** — Scores and starting points survive a reload or closing the app
 - **PWA support** — Install to your home screen and use like a native app
 - **Works offline** — No internet required after first load
 
